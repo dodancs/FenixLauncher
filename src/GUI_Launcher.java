@@ -32,7 +32,7 @@ public class GUI_Launcher extends JFrame {
     //Settings
     private final String GUI_icon_file = "icon.png";
     private final String GUI_logo_file = "logo.png";
-    private final int GUI_width = 420;
+    private final int GUI_width = 430;
     private final int GUI_height = 500;
     private final String GUI_title = "FenixLauncher 1.0";
     
@@ -153,9 +153,10 @@ public class GUI_Launcher extends JFrame {
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel5.setText("Modpack je pripravený na spustenie");
-        jLabel5.setToolTipText("");
 
         jButton3.setText("Spustiť");
+        
+        jLabel4.setIcon(new ImageIcon(getClass().getResource("modpackThumb_GENIUSPACK_1.7.10.png")));
     }
     
     @Override
@@ -229,7 +230,7 @@ public class GUI_Launcher extends JFrame {
                         .addComponent(jLabel3)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -250,7 +251,7 @@ public class GUI_Launcher extends JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 1, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
