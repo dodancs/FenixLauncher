@@ -16,7 +16,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
@@ -27,42 +26,43 @@ import javax.swing.JFrame;
 public class GUI_Launcher extends JFrame {
 
     //Main frame
-    private JFrame gui = new JFrame();
+    private JFrame gui = new JFrame(); //create JFrame gui
     
     //Settings
-    private final String GUI_icon_file = "icon.png";
-    private final String GUI_logo_file = "logo.png";
-    private final int GUI_width = 430;
-    private final int GUI_height = 500;
-    private final String GUI_title = "FenixLauncher 1.0";
+    private final String GUI_icon_file = "icon.png"; //gui icon file
+    private final String GUI_logo_file = "logo.png"; //gui logo file
+    private final int GUI_width = 430; //gui width
+    private final int GUI_height = 500; //gui height
+    private final String GUI_title = "FenixLauncher " + Launcher.launcherVersion; //gui title
     
     /**
      * Creates new form GUI_Launcher
      */
     public GUI_Launcher() {
-        gui = new JFrame();
+        gui = new JFrame(); //create new JFrame gui
     }
     
     public void init() {
         //initComponents();
         
-        guiComponents();
+        guiComponents(); //init gui components
         
-        gui.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        gui.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE); //set default close operation
 
-        gui.setSize(GUI_width, GUI_height);
-        gui.setResizable(false);
-        gui.setLocationRelativeTo(null);
-        gui.setTitle(GUI_title);
-        gui.setIconImage(new ImageIcon(getClass().getResource(GUI_icon_file)).getImage());
+        gui.setSize(GUI_width, GUI_height); //set gui width & height
+        gui.setResizable(false); //disable resizing
+        gui.setLocationRelativeTo(null); //center the gui
+        gui.setTitle(GUI_title); //set gui title
+        gui.setIconImage(new ImageIcon(getClass().getResource(GUI_icon_file)).getImage()); //set gui icon
         
-        gui.addWindowListener(new WindowAdapter() {
+        gui.addWindowListener(new WindowAdapter() { //add windos closing operation listener
             @Override
             public void windowClosing(WindowEvent we) {
-                Launcher.console.message("End of log here...");
+                Launcher.console.message("End of log here..." + System.getProperty("line.separator")); //close log
             }
         });
         
+        //Generated GUI elements
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(gui.getContentPane());
         gui.getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -119,8 +119,9 @@ public class GUI_Launcher extends JFrame {
         
     }
     
-    public void guiComponents() {
+    public void guiComponents() { //initialize all gui components
         
+        //create gui components
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -131,39 +132,39 @@ public class GUI_Launcher extends JFrame {
         jButton3 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new ImageIcon(getClass().getResource(GUI_logo_file)));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER); //set logo aligment
+        jLabel1.setIcon(new ImageIcon(getClass().getResource(GUI_logo_file))); //load logo file
         
-        jButton1.setText("Nastavenia");
-        jButton1.addActionListener(new ActionListener() {
+        jButton1.setText("Nastavenia"); //settings button text
+        jButton1.addActionListener(new ActionListener() { //settings button action listener
         @Override
         public void actionPerformed(ActionEvent e) {
-            Launcher.gui_settings.getSettingsValues();
-            Launcher.gui_settings.show();
+            Launcher.gui_settings.getSettingsValues(); //get current settings values
+            Launcher.gui_settings.show(); //show Settings GUI
         }});
         
-        jLabel2.setText("Prihlásený ako: Sonic656");
+        jLabel2.setText("Prihlásený ako: Sonic656"); //current user label text
 
-        jButton2.setText("Účty");
+        jButton2.setText("Účty"); //accounts button text
         
         jLabel3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel3.setText("Zvoľte modpack, ktorý chcete spustiť");
+        jLabel3.setText("Zvoľte modpack, ktorý chcete spustiť"); //modpack selection label text
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "GeniusPack 1.0", "GeniusLite 1.0" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(Launcher.modpacksList)); //modpacks avaliable dropdown
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel5.setText("Modpack je pripravený na spustenie");
+        jLabel5.setText("Modpack je pripravený na spustenie"); //currently selected modpack status text
 
-        jButton3.setText("Spustiť");
+        jButton3.setText("Spustiť"); //launch button text
         
-        jLabel4.setIcon(new ImageIcon(getClass().getResource("modpackThumb_GENIUSPACK_1.7.10.png")));
+        jLabel4.setIcon(new ImageIcon(getClass().getResource("modpackThumb_GENIUSPACK_1.7.10.png"))); //currently selected modpack thumbnail
     }
     
     @Override
-    public void show() {gui.setVisible(true);}
+    public void show() {gui.setVisible(true);} //show gui
     @Override
-    public void hide() {gui.setVisible(false);}
-    public void close() {gui.dispose();}
+    public void hide() {gui.setVisible(false);} //hide gui
+    public void close() {gui.dispose();} //close gui
 
     /**
      * This method is called from within the constructor to initialize the form.

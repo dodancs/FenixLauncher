@@ -31,7 +31,7 @@ public class UTILITY_settings {
 
                     JSONObject jsonObject = (JSONObject) obj;
 
-                    Launcher.launcherVersion = jsonObject.get("version").toString();
+                    //Launcher.launcherVersion = jsonObject.get("version").toString();
                     Launcher.LAUNCHER_path = jsonObject.get("launcher-path").toString();
                     Launcher.JAVA_path = jsonObject.get("java-path").toString();
                     Launcher.JAVA_ram = Integer.parseInt(jsonObject.get("max-ram").toString());
@@ -44,6 +44,7 @@ public class UTILITY_settings {
 
 
             } catch (Exception e) {
+                    Launcher.console.error(e.toString());
                     e.printStackTrace();
             }
         }
@@ -56,7 +57,7 @@ public class UTILITY_settings {
         if (Launcher.filehelper.fileExists(Launcher.launcherFile)) {
             Launcher.filehelper.emptyFile(Launcher.launcherFile);
             JSONObject obj = new JSONObject();
-            obj.put("version", "1.0");
+            obj.put("version", Launcher.launcherVersion);
             obj.put("os", Launcher.OS);
             obj.put("launcher-path", launcherPath);
             obj.put("java-path", javaPath);
@@ -70,11 +71,10 @@ public class UTILITY_settings {
             Launcher.console.message("Settings saved successfully!");
         }
         else {
-            Launcher.launcherFile = Launcher.startDir + Launcher.slash +  "launcher.json";
             
             Launcher.filehelper.createFile(Launcher.launcherFile);
             JSONObject obj = new JSONObject();
-            obj.put("version", "1.0");
+            obj.put("version", Launcher.launcherVersion);
             obj.put("os", Launcher.OS);
             obj.put("launcher-path", launcherPath);
             obj.put("java-path", javaPath);
@@ -100,7 +100,7 @@ public class UTILITY_settings {
 
                     JSONObject jsonObject = (JSONObject) obj;
 
-                    Launcher.launcherVersion = jsonObject.get("version").toString();
+                    //Launcher.launcherVersion = jsonObject.get("version").toString();
                     Launcher.LAUNCHER_path = jsonObject.get("launcher-path").toString();
                     Launcher.JAVA_path = jsonObject.get("java-path").toString();
                     Launcher.JAVA_ram = Integer.parseInt(jsonObject.get("max-ram").toString());
@@ -113,6 +113,7 @@ public class UTILITY_settings {
 
 
             } catch (Exception e) {
+                    Launcher.console.error(e.toString());
                     e.printStackTrace();
             }
         }

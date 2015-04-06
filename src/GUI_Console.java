@@ -21,32 +21,33 @@ import javax.swing.JFrame;
 public class GUI_Console extends JFrame {
 
     //Main frame
-    private JFrame gui = new JFrame();
+    private JFrame gui = new JFrame(); //create JFrame gui
     
     //Settings
-    private final int GUI_width = 700;
-    private final int GUI_height = 420;
-    private final String GUI_title = "FenixLauncher - Console";
+    private final int GUI_width = 700; //gui width
+    private final int GUI_height = 420; //gui height
+    private final String GUI_title = "FenixLauncher - Console"; //gui title
     
     /**
      * Creates new form GUI_Console
      */
     public GUI_Console() {
-        gui = new JFrame();
+        gui = new JFrame(); //create new JFrame gui
     }
     
     public void init() {
         //initComponents();
         
-        guiComponents();
+        guiComponents(); //init gui components
         
-        gui.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        gui.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE); //set default close operation
 
-        gui.setSize(GUI_width, GUI_height);
-        gui.setResizable(false);
-        gui.setLocation(0, 0);
-        gui.setTitle(GUI_title);
+        gui.setSize(GUI_width, GUI_height); //set gui width & height
+        gui.setResizable(false); //disable resizing
+        gui.setLocation(0,0); //move gui to top left corner
+        gui.setTitle(GUI_title); //set gui title
         
+        //Generated GUI elements
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(gui.getContentPane());
         gui.getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -62,29 +63,30 @@ public class GUI_Console extends JFrame {
         
     }
     
-    public void guiComponents() {
+    public void guiComponents() { //initialize all gui components
         
+        //create gui components
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
+        jTextArea1.setEditable(false); //disable text are editing
+        //jTextArea1.setColumns(20); //set text area column number
         jTextArea1.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        jTextArea1.setRows(5);
-        jTextArea1.setBorder(null);
-        jScrollPane1.setViewportView(jTextArea1);
+        //jTextArea1.setRows(5); //set text area row number
+        jTextArea1.setBorder(null); //remove text area border
+        jScrollPane1.setViewportView(jTextArea1); //add scrollbar to the text area
         
     }
     
-    public void clear() {jTextArea1.setText("");}
-    public void append(String text) {String currentText = jTextArea1.getText(); jTextArea1.setText(currentText + "" + text);}
-    public void appendln(String text) {String currentText = jTextArea1.getText(); jTextArea1.setText(currentText + text + System.getProperty("line.separator"));}
+    public void clear() {jTextArea1.setText("");} //clear text area contents
+    public void append(String text) {String currentText = jTextArea1.getText(); jTextArea1.setText(currentText + "" + text);} //append text to text area
+    public void appendln(String text) {String currentText = jTextArea1.getText(); jTextArea1.setText(currentText + text + System.getProperty("line.separator"));} //append text and new line to text area
     
     @Override
-    public void show() {gui.setVisible(true);}
+    public void show() {gui.setVisible(true);} //show gui
     @Override
-    public void hide() {gui.setVisible(false);}
-    public void close() {gui.dispose();}
+    public void hide() {gui.setVisible(false);} //hide gui
+    public void close() {gui.dispose();} //close gui
 
     /**
      * This method is called from within the constructor to initialize the form.

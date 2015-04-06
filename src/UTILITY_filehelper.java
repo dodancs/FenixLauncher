@@ -43,6 +43,7 @@ public class UTILITY_filehelper {
         // Catches any error conditions
         catch (Exception e)
         {
+            Launcher.console.error(e.toString());
             e.printStackTrace();
         }
         
@@ -64,6 +65,7 @@ public class UTILITY_filehelper {
         // Catches any error conditions
         catch (Exception e)
         {
+            Launcher.console.error(e.toString());
             e.printStackTrace();
         }
         
@@ -87,6 +89,7 @@ public class UTILITY_filehelper {
         // Catches any error conditions
         catch (Exception e)
         {
+            Launcher.console.error(e.toString());
             e.printStackTrace();
         }
     }
@@ -100,6 +103,7 @@ public class UTILITY_filehelper {
             out.println(text);
             out.close();
         } catch (Exception e) {
+            Launcher.console.error(e.toString());
             e.printStackTrace();
         }
     }
@@ -110,6 +114,7 @@ public class UTILITY_filehelper {
             writer.close();
         }
         catch (Exception e) {
+            Launcher.console.error(e.toString());
             e.printStackTrace();
         }
         
@@ -133,6 +138,7 @@ public class UTILITY_filehelper {
         // Catches any error conditions
         catch (Exception e)
         {
+            Launcher.console.error(e.toString());
             e.printStackTrace();
         }
         
@@ -155,6 +161,7 @@ public class UTILITY_filehelper {
         // Catches any error conditions
         catch (Exception e)
         {
+            Launcher.console.error(e.toString());
             e.printStackTrace();
         }
         

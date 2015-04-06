@@ -25,39 +25,40 @@ import javax.swing.event.ChangeListener;
  */
 public class GUI_Settings extends JFrame {
 
+    //get max RAM avaliable
     com.sun.management.OperatingSystemMXBean bean =
     (com.sun.management.OperatingSystemMXBean)
     java.lang.management.ManagementFactory.getOperatingSystemMXBean();
     long maxMemory = bean.getTotalPhysicalMemorySize();
-    //public static long maxMemory = Runtime.getRuntime().maxMemory();
     
     //Main frame
-    private JFrame gui = new JFrame();
+    private JFrame gui = new JFrame(); //create JFrame gui
     
     //Settings
-    private final int GUI_width = 700;
-    private final int GUI_height = 420;
-    private final String GUI_title = "FenixLauncher - Nastavenie pri prvom spustení";
+    private final int GUI_width = 700; //gui width
+    private final int GUI_height = 420; //gui height
+    private final String GUI_title = "FenixLauncher - Nastavenie pri prvom spustení"; //gui title
     
     /**
      * Creates new form GUI_Settings
      */
     public GUI_Settings() {
-        gui = new JFrame();
+        gui = new JFrame(); //create new JFrame gui
     }
     
     public void init() {
         //initComponents();
         
-        guiComponents();
+        guiComponents(); //init gui components
         
-        gui.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        gui.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE); //set default close operation
 
-        gui.setSize(GUI_width, GUI_height);
-        gui.setResizable(false);
-        gui.setLocationRelativeTo(null);
-        gui.setTitle(GUI_title);
+        gui.setSize(GUI_width, GUI_height); //set gui width & height
+        gui.setResizable(false); //disable resizing
+        gui.setLocationRelativeTo(null); //center the gui
+        gui.setTitle(GUI_title); //set gui title
         
+        //Generated GUI elements
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(gui.getContentPane());
         gui.getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -148,8 +149,9 @@ public class GUI_Settings extends JFrame {
         
     }
     
-    public void guiComponents() {
+    public void guiComponents() { //initialize all gui components
         
+        //create gui components
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
@@ -171,90 +173,79 @@ public class GUI_Settings extends JFrame {
         jButton3 = new javax.swing.JButton();
         
         jLabel1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel1.setText("Nastavenie launcheru");
+        jLabel1.setText("Nastavenie launcheru"); //launcher settings label text
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel2.setText("Priečinok launcheru");
+        jLabel2.setText("Priečinok launcheru"); //launcher path label text
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel3.setText("Cesta ku jave");
-        
-        jTextField2.setText(System.getProperty("java.home") + Launcher.slash + "jawaw.exe");
+        jLabel3.setText("Cesta ku jave"); //java path label text
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel4.setText("Alokácia pamäte RAM");
+        jLabel4.setText("Alokácia pamäte RAM"); //java ram label text
         
-        jSlider1.setMaximum((int)(maxMemory / 1024 / 1024));
-        jSlider1.setValue(1024);
-        jSlider1.addChangeListener(new ChangeListener() {
+        jSlider1.setMaximum((int)(maxMemory / 1024 / 1024)); //set slider max value
+        jSlider1.addChangeListener(new ChangeListener() { //add slider change listener
         @Override
         public void stateChanged(ChangeEvent arg0) {
             jTextField3.setText("" + new DecimalFormat("##.##").format(((float)jSlider1.getValue() / 1024)) + "G");
         }});
         
-        jTextField1.setText(System.getProperty("user.home") + Launcher.slash + "FenixLauncher");
-        
-        jTextField3.setText("1G");
         jTextField3.setEditable(false);
         
         jLabel5.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        jLabel5.setText("Nie je odporúčané alokovať viac ako polovicu systémovej pamäte pre javu.");
+        jLabel5.setText("Nie je odporúčané alokovať viac ako polovicu systémovej pamäte pre javu."); //ram allocation tip label text
         
         jLabel6.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel6.setText("Povoliť konzolu");
+        jLabel6.setText("Povoliť konzolu"); //enable console label text
 
         jLabel7.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel7.setText("Nastavenie launcheru a javy");
+        jLabel7.setText("Nastavenie launcheru a javy"); //launcher and java settings label text
 
         jLabel8.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel8.setText("Nastavenie konzoly");
+        jLabel8.setText("Nastavenie konzoly"); //console settings label text
 
         jLabel9.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel9.setText("Zobraziť konzolu pri spustení launcheru");
-        jLabel9.setToolTipText("");
+        jLabel9.setText("Zobraziť konzolu pri spustení launcheru"); //show console on app start label text
 
         jLabel10.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel10.setText("Ukladať výstup konzoly do súboru");
+        jLabel10.setText("Ukladať výstup konzoly do súboru"); //save console log to file label text
 
-        jButton1.setText("Uložiť");
-        jButton1.addActionListener(new ActionListener() {
+        jButton1.setText("Uložiť"); //save button text
+        jButton1.addActionListener(new ActionListener() { //save button action listener
         @Override
         public void actionPerformed(ActionEvent e) {
             Launcher.settings.saveSettings(jTextField1.getText(),jTextField2.getText(),jSlider1.getValue(),jCheckBox1.isSelected(),jCheckBox2.isSelected(),jCheckBox3.isSelected());
             close();
         }});
 
-        jButton3.setText("Zrušiť");
-        jButton3.addActionListener(new ActionListener() {
+        jButton3.setText("Zrušiť"); //cancel button text
+        jButton3.addActionListener(new ActionListener() { //cancel button action listener
         @Override
         public void actionPerformed(ActionEvent e) {
             close();
         }});
-        
-        jCheckBox1.setSelected(true);
-        jCheckBox2.setSelected(true);
-        jCheckBox3.setSelected(true);
         
         getSettingsValues();
         
     }
     
     public void getSettingsValues() {      
-        jTextField1.setText(Launcher.LAUNCHER_path); //Launcher path
-        jTextField2.setText(Launcher.JAVA_path); //Java path
-        jSlider1.setValue(Launcher.JAVA_ram); //RAM slider
-        jTextField3.setText("" + new DecimalFormat("##.##").format(((float)jSlider1.getValue() / 1024)) + "G"); //RAM number
+        jTextField1.setText(Launcher.LAUNCHER_path); //set current launcher path
+        jTextField2.setText(Launcher.JAVA_path); //set current java path
+        jSlider1.setValue(Launcher.JAVA_ram); //set current ram value to slider
+        jTextField3.setText("" + new DecimalFormat("##.##").format(((float)jSlider1.getValue() / 1024)) + "G"); //set current ram value
         
-        jCheckBox1.setSelected(Launcher.CONSOLE_enabled);
-        jCheckBox2.setSelected(Launcher.CONSOLE_show);
-        jCheckBox3.setSelected(Launcher.CONSOLE_log);
+        jCheckBox1.setSelected(Launcher.CONSOLE_enabled); //set current console enabled status
+        jCheckBox2.setSelected(Launcher.CONSOLE_show); //set current console visible status
+        jCheckBox3.setSelected(Launcher.CONSOLE_log); //set current console file log status
     }
     
     @Override
-    public void show() {gui.setVisible(true);}
+    public void show() {gui.setVisible(true);} //show gui
     @Override
-    public void hide() {gui.setVisible(false);}
-    public void close() {gui.dispose();}
+    public void hide() {gui.setVisible(false);} //hide gui
+    public void close() {gui.dispose();} //close gui
 
     /**
      * This method is called from within the constructor to initialize the form.
