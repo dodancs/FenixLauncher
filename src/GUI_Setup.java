@@ -17,6 +17,8 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -50,6 +52,13 @@ public class GUI_Setup extends JFrame {
     
     public void init() {
         //initComponents();
+        
+        //set look and feel
+        try {UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());} 
+        catch (UnsupportedLookAndFeelException e) {Launcher.console.error(e.toString());e.printStackTrace();}
+        catch (ClassNotFoundException e) {Launcher.console.error(e.toString());e.printStackTrace();}
+        catch (InstantiationException e) {Launcher.console.error(e.toString());e.printStackTrace();}
+        catch (IllegalAccessException e) {Launcher.console.error(e.toString());e.printStackTrace();}
         
         guiComponents(); //init gui components
         

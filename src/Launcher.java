@@ -34,6 +34,7 @@ public class Launcher {
     public static boolean CONSOLE_show = false; //console visible status
     public static boolean CONSOLE_log = true; //console file log status
     
+    public static String modpacksURL= "http://update.fenixportal.eu/modpacks";
     public static String[] modpacksList = {"Načítavam..."}; //avaliable modpacks
     public static String currentModpack = ""; //current modpack
     
@@ -43,12 +44,14 @@ public class Launcher {
     public static UTILITY_console console = new UTILITY_console(); //create new console
     public static UTILITY_settings settings = new UTILITY_settings(); //create new settings
     public static UTILITY_modpacks modpacks = new UTILITY_modpacks(); //create new modpacks
+    public static UTILITY_jsonhelper jsonhelper = new UTILITY_jsonhelper(); //create new jsonhelper
     
     //GUIs
     public static GUI_Launcher gui_launcher = new GUI_Launcher(); //create new Launcher GUI
     public static GUI_Setup gui_setup = new GUI_Setup(); //create new Setup GUI
     public static GUI_Settings gui_settings = new GUI_Settings(); //create new Settings GUI
     public static GUI_Console gui_console = new GUI_Console(); //create new Console GUI
+    public static GUI_Modpacks gui_modpacks = new GUI_Modpacks(); //create new Modpacks GUI
     
     public static void main(String args[]) {
         
@@ -70,6 +73,9 @@ public class Launcher {
                 gui_launcher.init(); //init Launcher GUI
                 gui_launcher.show(); //show Launcher GUI
                 gui_settings.init(); //init Settings GUI
+                gui_modpacks.init(); //init Modpacks GUI
+                
+                modpacks.getModpacks();
             }
         }
         catch(Exception e) {

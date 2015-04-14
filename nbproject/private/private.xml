@@ -4,11 +4,14 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/dodan_000/Documents/NetBeansProjects/Launcher/src/GUI_Launcher.java</file>
+            <file>file:/C:/Users/dodan_000/Documents/NetBeansProjects/Launcher/src/GUI_Modpacks.java</file>
             <file>file:/C:/Users/dodan_000/Documents/NetBeansProjects/Launcher/src/UTILITY_settings.java</file>
             <file>file:/C:/Users/dodan_000/Documents/NetBeansProjects/Launcher/src/GUI_Console.java</file>
             <file>file:/C:/Users/dodan_000/Documents/NetBeansProjects/Launcher/src/UTILITY_filehelper.java</file>
             <file>file:/C:/Users/dodan_000/Documents/NetBeansProjects/Launcher/src/GUI_Settings.java</file>
+            <file>file:/C:/Users/dodan_000/Documents/NetBeansProjects/Launcher/src/UTILITY_jsonhelper.java</file>
             <file>file:/C:/Users/dodan_000/Documents/NetBeansProjects/Launcher/src/Launcher.java</file>
+            <file>file:/C:/Users/dodan_000/Documents/NetBeansProjects/Launcher/src/UTILITY_modpacks.java</file>
             <file>file:/C:/Users/dodan_000/Documents/NetBeansProjects/Launcher/src/UTILITY_console.java</file>
             <file>file:/C:/Users/dodan_000/Documents/NetBeansProjects/Launcher/src/GUI_Setup.java</file>
         </group>

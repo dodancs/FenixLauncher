@@ -40,7 +40,7 @@ public class UTILITY_settings {
                     Launcher.CONSOLE_log = (boolean) jsonObject.get("console-filelog");
                     
                     Launcher.console.init();
-                    Launcher.console.message("Settings loaded!");
+                    Launcher.console.info("Settings loaded!");
 
 
             } catch (Exception e) {
@@ -68,7 +68,7 @@ public class UTILITY_settings {
             
             Launcher.filehelper.appendFile(Launcher.launcherFile, obj.toJSONString());
             
-            Launcher.console.message("Settings saved successfully!");
+            Launcher.console.info("Settings saved successfully!");
         }
         else {
             
@@ -85,7 +85,7 @@ public class UTILITY_settings {
             
             Launcher.filehelper.appendFile(Launcher.launcherFile, obj.toString());
             
-            Launcher.console.message("Settings saved successfully!");
+            Launcher.console.info("Settings saved successfully!");
         }
         
         reLoad();
@@ -108,7 +108,7 @@ public class UTILITY_settings {
                     Launcher.CONSOLE_show = (boolean) jsonObject.get("console-show");
                     Launcher.CONSOLE_log = (boolean) jsonObject.get("console-filelog");
                     
-                    Launcher.console.message("Settings reloaded!");
+                    Launcher.console.info("Settings reloaded!");
                     Launcher.console.reload();
 
 

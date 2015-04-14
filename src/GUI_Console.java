@@ -12,7 +12,10 @@
  |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
  */
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -24,6 +27,7 @@ public class GUI_Console extends JFrame {
     private JFrame gui = new JFrame(); //create JFrame gui
     
     //Settings
+    private final String GUI_icon_file = "icon.png"; //gui icon file
     private final int GUI_width = 700; //gui width
     private final int GUI_height = 420; //gui height
     private final String GUI_title = "FenixLauncher - Console"; //gui title
@@ -38,6 +42,13 @@ public class GUI_Console extends JFrame {
     public void init() {
         //initComponents();
         
+        //set look and feel
+        try {UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());} 
+        catch (UnsupportedLookAndFeelException e) {Launcher.console.error(e.toString());e.printStackTrace();}
+        catch (ClassNotFoundException e) {Launcher.console.error(e.toString());e.printStackTrace();}
+        catch (InstantiationException e) {Launcher.console.error(e.toString());e.printStackTrace();}
+        catch (IllegalAccessException e) {Launcher.console.error(e.toString());e.printStackTrace();}
+        
         guiComponents(); //init gui components
         
         gui.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE); //set default close operation
@@ -46,6 +57,7 @@ public class GUI_Console extends JFrame {
         gui.setResizable(false); //disable resizing
         gui.setLocation(0,0); //move gui to top left corner
         gui.setTitle(GUI_title); //set gui title
+        gui.setIconImage(new ImageIcon(getClass().getResource(GUI_icon_file)).getImage()); //set gui icon
         
         //Generated GUI elements
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(gui.getContentPane());
