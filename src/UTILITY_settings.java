@@ -23,6 +23,7 @@ import org.json.simple.parser.JSONParser;
 public class UTILITY_settings {
     
     public void load() {
+        
         if (Launcher.filehelper.fileExists(Launcher.launcherFile)) {
             JSONParser parser = new JSONParser();
             
@@ -39,22 +40,25 @@ public class UTILITY_settings {
                     Launcher.CONSOLE_show = (boolean) jsonObject.get("console-show");
                     Launcher.CONSOLE_log = (boolean) jsonObject.get("console-filelog");
                     
+                    Launcher.filehelper.initFiles();
+                    
                     Launcher.console.init();
+                    
                     Launcher.console.info("Settings loaded!");
 
 
             } catch (Exception e) {
-                    Launcher.console.error(e.toString());
+                    Launcher.console.error("UTILITY_settings.load() : " + e.toString());
                     e.printStackTrace();
             }
         }
         else {
-            Launcher.console.init();
         }
     }
     
     public void saveSettings(String launcherPath,String javaPath,int javaRAM,boolean cEnabled,boolean cShow,boolean cLog) {
-        if (Launcher.filehelper.fileExists(Launcher.launcherFile)) {
+        
+        if (!Launcher.firstStart) {
             Launcher.filehelper.emptyFile(Launcher.launcherFile);
             JSONObject obj = new JSONObject();
             obj.put("version", Launcher.launcherVersion);
@@ -66,13 +70,14 @@ public class UTILITY_settings {
             obj.put("console-show", cShow);
             obj.put("console-filelog", cLog);
             
+            Launcher.filehelper.createDir(launcherPath);
+            
             Launcher.filehelper.appendFile(Launcher.launcherFile, obj.toJSONString());
             
             Launcher.console.info("Settings saved successfully!");
         }
         else {
             
-            Launcher.filehelper.createFile(Launcher.launcherFile);
             JSONObject obj = new JSONObject();
             obj.put("version", Launcher.launcherVersion);
             obj.put("os", Launcher.OS);
@@ -84,6 +89,16 @@ public class UTILITY_settings {
             obj.put("console-filelog", cLog);
             
             Launcher.filehelper.appendFile(Launcher.launcherFile, obj.toString());
+            
+            Launcher.LAUNCHER_path = launcherPath;
+            Launcher.JAVA_path = javaPath;
+            Launcher.JAVA_ram = javaRAM;
+            Launcher.CONSOLE_enabled = (boolean) cEnabled;
+            Launcher.CONSOLE_show = (boolean) cShow;
+            Launcher.CONSOLE_log = (boolean) cLog;
+            Launcher.filehelper.initFiles();
+            
+            Launcher.console.reload();
             
             Launcher.console.info("Settings saved successfully!");
         }
@@ -113,7 +128,7 @@ public class UTILITY_settings {
 
 
             } catch (Exception e) {
-                    Launcher.console.error(e.toString());
+                    Launcher.console.error("UTILITY_settings.reLoad() : " + e.toString());
                     e.printStackTrace();
             }
         }

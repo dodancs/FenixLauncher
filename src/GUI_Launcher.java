@@ -16,10 +16,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 /**
  *
@@ -31,8 +34,8 @@ public class GUI_Launcher extends JFrame {
     private JFrame gui = new JFrame(); //create JFrame gui
     
     //Settings
-    private final String GUI_icon_file = "icon.png"; //gui icon file
-    private final String GUI_logo_file = "logo.png"; //gui logo file
+    private final String GUI_icon_file = "/Resources/icon.png"; //gui icon file
+    private final String GUI_logo_file = "/Resources/logo.png"; //gui logo file
     private final int GUI_width = 430; //gui width
     private final int GUI_height = 500; //gui height
     private final String GUI_title = "FenixLauncher " + Launcher.launcherVersion; //gui title
@@ -49,10 +52,7 @@ public class GUI_Launcher extends JFrame {
         
         //set look and feel
         try {UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());} 
-        catch (UnsupportedLookAndFeelException e) {Launcher.console.error(e.toString());e.printStackTrace();}
-        catch (ClassNotFoundException e) {Launcher.console.error(e.toString());e.printStackTrace();}
-        catch (InstantiationException e) {Launcher.console.error(e.toString());e.printStackTrace();}
-        catch (IllegalAccessException e) {Launcher.console.error(e.toString());e.printStackTrace();}
+        catch (Exception e) {Launcher.console.error(e.toString());e.printStackTrace();}
         
         guiComponents(); //init gui components
         
@@ -62,7 +62,7 @@ public class GUI_Launcher extends JFrame {
         gui.setResizable(false); //disable resizing
         gui.setLocationRelativeTo(null); //center the gui
         gui.setTitle(GUI_title); //set gui title
-        gui.setIconImage(new ImageIcon(getClass().getResource(GUI_icon_file)).getImage()); //set gui icon
+        gui.setIconImage(Launcher.filehelper.getImage(GUI_icon_file)); //set gui icon
         
         gui.addWindowListener(new WindowAdapter() { //add windos closing operation listener
             @Override
@@ -149,7 +149,7 @@ public class GUI_Launcher extends JFrame {
         jButton4 = new javax.swing.JButton();
         
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER); //set logo aligment
-        jLabel1.setIcon(new ImageIcon(getClass().getResource(GUI_logo_file))); //load logo file
+        jLabel1.setIcon(Launcher.filehelper.getIcon(GUI_logo_file)); //load logo file
         
         jButton1.setText("Nastavenia"); //settings button text
         jButton1.addActionListener(new ActionListener() { //settings button action listener
@@ -159,28 +159,127 @@ public class GUI_Launcher extends JFrame {
             Launcher.gui_settings.show(); //show Settings GUI
         }});
         
-        jLabel2.setText("Prihlásený ako: Sonic656"); //current user label text
+        if (Launcher.loggedIn) {jLabel2.setText("Prihlásený ako: "+Launcher.currentUser);} //current user label text
+        else {jLabel2.setText("Nie ste prihlásený");}
 
         jButton2.setText("Účty"); //accounts button text
         
         jLabel3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel3.setText("Zvoľte modpack, ktorý chcete spustiť"); //modpack selection label text
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(Launcher.modpacksList)); //modpacks avaliable dropdown
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(Launcher.modpacksList.toArray())); //modpacks avaliable dropdown
+        jComboBox1.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                javax.swing.JComboBox combo = (javax.swing.JComboBox)e.getSource();
+                Launcher.currentModpack = (String)combo.getSelectedItem();
+                Launcher.console.info("Current modpack: " + Launcher.currentModpack);
+                if (!Launcher.modpacks.checkFor(Launcher.currentModpack)) {
+                    jButton4.setText("Stiahnúť");
+                    jLabel5.setText("Modpack nie je stiahnutý");
+                    ActionListener[] listenersToRemove = jButton4.getActionListeners();
+                    for (ActionListener l : listenersToRemove) {
+                        jButton4.removeActionListener(l);
+                    }
+                    jButton4.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        Launcher.gui_downloader.show(); //show Downloader GUI
+                        
+                        //Download modpack
+                        JSONObject o = Launcher.modpacks.getOnlineModpackInfo(Launcher.currentModpack);
+                        JSONObject c = (JSONObject)JSONValue.parse(Launcher.jsonhelper.oGetKeyArrayObjects(o, "versions").get(0));
+
+                        String localName = Launcher.downloadsDir + Launcher.slash + Launcher.jsonhelper.oGetKeyValueString(o,"code_name") + "_" + Launcher.jsonhelper.oGetKeyValueString(o,"current_version") + ".zip";
+                        String downloadUrl = Launcher.jsonhelper.oGetKeyValueString(c,Launcher.jsonhelper.oGetKeyValueString(o,"current_version")+"|"+Launcher.jsonhelper.oGetKeyValueString(o,"mc_version"));
+
+                        Launcher.downloader.quickDownload(downloadUrl, localName, Launcher.modpacksDir + Launcher.slash + Launcher.jsonhelper.oGetKeyValueString(o,"code_name") + "_" + Launcher.jsonhelper.oGetKeyValueString(o,"current_version"), Launcher.currentModpack);
+                        
+                    }});
+                }
+                if (Launcher.modpacks.checkFor(Launcher.currentModpack)) {
+                    jButton4.setText("Upraviť");
+                    jLabel5.setText("Modpack je pripravený na spustenie");
+                    ActionListener[] listenersToRemove = jButton4.getActionListeners();
+                    for (ActionListener l : listenersToRemove) {
+                        jButton4.removeActionListener(l);
+                    }
+                    jButton4.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        Launcher.gui_modpackEdit.show(); //show ModpackEdit GUI
+                    }});
+                }
+                
+                jLabel4.setIcon(getModpackIcon()); //currently selected modpack thumbnail
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel5.setText("Modpack je pripravený na spustenie"); //currently selected modpack status text
+        jLabel5.setText(""); //currently selected modpack status text
 
         jButton3.setText("Spustiť"); //launch button text
         
-        jLabel4.setIcon(new ImageIcon(getClass().getResource("modpackThumb_GENIUSPACK_1.7.10.png"))); //currently selected modpack thumbnail
+        jButton4.setText("Upraviť"); //modpacks button text
+    }
+    
+    public void updateModpacks(String[] modpacks) {
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(modpacks));
+        Launcher.currentModpack = (String)jComboBox1.getSelectedItem();
+        if (!Launcher.modpacks.checkFor(Launcher.currentModpack)) {
+            jButton4.setText("Stiahnúť");
+            jLabel5.setText("Modpack nie je stiahnutý");
+            ActionListener[] listenersToRemove = jButton4.getActionListeners();
+            for (ActionListener l : listenersToRemove) {
+                jButton4.removeActionListener(l);
+            }
+            jButton4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Launcher.gui_downloader.show(); //show Downloader
+                
+                //Download modpack
+                JSONObject o = Launcher.modpacks.getOnlineModpackInfo(Launcher.currentModpack);
+                JSONObject c = (JSONObject)JSONValue.parse(Launcher.jsonhelper.oGetKeyArrayObjects(o, "versions").get(0));
+                
+                String localName = Launcher.downloadsDir + Launcher.slash + Launcher.jsonhelper.oGetKeyValueString(o,"code_name") + "_" + Launcher.jsonhelper.oGetKeyValueString(o,"current_version") + ".zip";
+                String downloadUrl = Launcher.jsonhelper.oGetKeyValueString(c,Launcher.jsonhelper.oGetKeyValueString(o,"current_version")+"|"+Launcher.jsonhelper.oGetKeyValueString(o,"mc_version"));
+                
+                Launcher.downloader.quickDownload(downloadUrl, localName, Launcher.modpacksDir + Launcher.slash + Launcher.jsonhelper.oGetKeyValueString(o,"code_name") + "_" + Launcher.jsonhelper.oGetKeyValueString(o,"current_version"), Launcher.currentModpack);
+                
+            }});
+        }
+        if (Launcher.modpacks.checkFor(Launcher.currentModpack)) {
+            jButton4.setText("Upraviť");
+            jLabel5.setText("Modpack je pripravený na spustenie");
+            ActionListener[] listenersToRemove = jButton4.getActionListeners();
+            for (ActionListener l : listenersToRemove) {
+                jButton4.removeActionListener(l);
+            }
+            jButton4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Launcher.gui_modpackEdit.show(); //show ModpackEdit GUI
+            }});
+        }
         
-        jButton4.setText("Modpacky"); //modpacks button text
-        jButton4.addActionListener(new ActionListener() { //modpacks button action listener
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            Launcher.gui_modpacks.show(); //show Modpacks GUI
-        }});
+        jLabel4.setIcon(getModpackIcon()); //currently selected modpack thumbnail
+    }
+    
+    public Icon getModpackIcon() {
+        if (!Launcher.modpacks.checkFor(Launcher.currentModpack)) {
+            JSONObject o = Launcher.modpacks.getOnlineModpackInfo(Launcher.currentModpack);
+            String modpackIconFilename = "";
+            modpackIconFilename = Launcher.jsonhelper.oGetKeyValueString(o,"code_name") + "_" + Launcher.jsonhelper.oGetKeyValueString(o,"current_version") + ".png";
+            if (!Launcher.filehelper.fileExists(Launcher.downloadsDir + Launcher.slash + modpackIconFilename)) {Launcher.filehelper.downloadFile(Launcher.modpackImgUrl + modpackIconFilename, Launcher.downloadsDir + Launcher.slash + modpackIconFilename);}
+            return new ImageIcon(Launcher.downloadsDir + Launcher.slash + modpackIconFilename);
+        }
+        else {
+            JSONObject o = Launcher.modpacks.getModpackInfo(Launcher.currentModpack);
+            String modpackIconFilename = "";
+            modpackIconFilename = Launcher.jsonhelper.oGetKeyValueString(o,"code_name") + "_" + Launcher.jsonhelper.oGetKeyValueString(o,"version") + ".png";
+            if (!Launcher.filehelper.fileExists(Launcher.downloadsDir + Launcher.slash + modpackIconFilename)) {Launcher.filehelper.downloadFile(Launcher.modpackImgUrl + modpackIconFilename, Launcher.downloadsDir + Launcher.slash + modpackIconFilename);}
+            return new ImageIcon(Launcher.downloadsDir + Launcher.slash + modpackIconFilename);
+        }
     }
     
     @Override
@@ -188,6 +287,10 @@ public class GUI_Launcher extends JFrame {
     @Override
     public void hide() {gui.setVisible(false);} //hide gui
     public void close() {gui.dispose();} //close gui
+    @Override
+    public void disable() {gui.setEnabled(false);} //disable gui
+    @Override
+    public void enable() {gui.setEnabled(true);} //enable gui
 
     /**
      * This method is called from within the constructor to initialize the form.

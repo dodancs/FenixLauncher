@@ -24,7 +24,7 @@ public class UTILITY_console {
     
     public void logToFile() {Launcher.CONSOLE_log = true;}
     public void notLogToFile() {Launcher.CONSOLE_log = false;}
-    public boolean isLoggingToFile() {return Launcher.CONSOLE_log;}
+    public boolean canLogToFile() {if (Launcher.filehelper.fileExists(Launcher.CONSOLE_logFile)) {return Launcher.CONSOLE_log;} else{return false;}}
     
     public void init() {        
         Launcher.gui_console.init();
@@ -33,14 +33,14 @@ public class UTILITY_console {
             if (canShow()) {
                 Launcher.gui_console.show();
             }
+            message("Starting log...");
+            message("Log path: " + Launcher.CONSOLE_logFile);
         }
         
         if (!Launcher.filehelper.fileExists(Launcher.CONSOLE_logFile)) {
-            Launcher.filehelper.createFile(Launcher.CONSOLE_logFile);
+            if (Launcher.firstStart) {}
+            else {Launcher.filehelper.createDir(Launcher.CONSOLE_logsdir);Launcher.filehelper.createFile(Launcher.CONSOLE_logFile);}
         }
-        
-        message("Starting log...");
-        message("Log path: " + Launcher.CONSOLE_logFile);
     }
     
     public void reload() {
@@ -70,7 +70,7 @@ public class UTILITY_console {
 
     public void message(String text) {
         if (isEnabled()) {
-            if (Launcher.CONSOLE_log) {
+            if (canLogToFile()) {
                 Launcher.filehelper.appendFile(Launcher.CONSOLE_logFile, currentTimestamp() + ": " + text);
             }
             
@@ -79,7 +79,7 @@ public class UTILITY_console {
     }
     public void error(String text) {
         if (isEnabled()) {
-            if (Launcher.CONSOLE_log) {
+            if (canLogToFile()) {
                 Launcher.filehelper.appendFile(Launcher.CONSOLE_logFile, currentTimestamp() + ": [ERROR]: " + text);
             }
             
@@ -88,7 +88,7 @@ public class UTILITY_console {
     }
     public void critical(String text) {
         if (isEnabled()) {
-            if (Launcher.CONSOLE_log) {
+            if (canLogToFile()) {
                 Launcher.filehelper.appendFile(Launcher.CONSOLE_logFile, currentTimestamp() + ": [CRITICAL]: " + text);
             }
             
@@ -97,7 +97,7 @@ public class UTILITY_console {
     }
     public void info(String text) {
         if (isEnabled()) {
-            if (Launcher.CONSOLE_log) {
+            if (canLogToFile()) {
                 Launcher.filehelper.appendFile(Launcher.CONSOLE_logFile, currentTimestamp() + ": [INFO]: " + text);
             }
             

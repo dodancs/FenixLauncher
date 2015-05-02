@@ -1,5 +1,5 @@
-
 import java.util.ArrayList;
+import java.util.Iterator;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -124,6 +124,19 @@ public class UTILITY_jsonhelper {
         }
         
         return vals;
+    }
+    
+    public ArrayList<String> oGetKeyArrayObjects(JSONObject o, String k) {
+        ArrayList<String> array = new ArrayList<String>();
+        
+        JSONArray a = (JSONArray) o.get(k);
+        Iterator i = a.iterator();
+        while (i.hasNext()) {
+            JSONObject o2 = (JSONObject)i.next();
+            array.add(o2.toJSONString());
+        }
+        
+        return array;
     }
     
 }

@@ -14,6 +14,8 @@
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.DecimalFormat;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -38,7 +40,7 @@ public class GUI_Settings extends JFrame {
     private JFrame gui = new JFrame(); //create JFrame gui
     
     //Settings
-    private final String GUI_icon_file = "icon.png"; //gui icon file
+    private final String GUI_icon_file = "/Resources/icon.png"; //gui icon file
     private final int GUI_width = 700; //gui width
     private final int GUI_height = 420; //gui height
     private final String GUI_title = "FenixLauncher - Nastavenie pri prvom spustení"; //gui title
@@ -55,10 +57,7 @@ public class GUI_Settings extends JFrame {
         
         //set look and feel
         try {UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());} 
-        catch (UnsupportedLookAndFeelException e) {Launcher.console.error(e.toString());e.printStackTrace();}
-        catch (ClassNotFoundException e) {Launcher.console.error(e.toString());e.printStackTrace();}
-        catch (InstantiationException e) {Launcher.console.error(e.toString());e.printStackTrace();}
-        catch (IllegalAccessException e) {Launcher.console.error(e.toString());e.printStackTrace();}
+        catch (Exception e) {Launcher.console.error(e.toString());e.printStackTrace();}
         
         guiComponents(); //init gui components
         
@@ -68,7 +67,15 @@ public class GUI_Settings extends JFrame {
         gui.setResizable(false); //disable resizing
         gui.setLocationRelativeTo(null); //center the gui
         gui.setTitle(GUI_title); //set gui title
-        gui.setIconImage(new ImageIcon(getClass().getResource(GUI_icon_file)).getImage()); //set gui icon
+        gui.setIconImage(Launcher.filehelper.getImage(GUI_icon_file)); //set gui icon
+        
+        gui.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent evt) {
+                Launcher.gui_launcher.enable();
+                Launcher.gui_console.enable();
+            }
+        });
         
         //Generated GUI elements
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(gui.getContentPane());
@@ -254,10 +261,14 @@ public class GUI_Settings extends JFrame {
     }
     
     @Override
-    public void show() {gui.setVisible(true);} //show gui
+    public void show() {gui.setVisible(true);Launcher.gui_launcher.disable();Launcher.gui_console.disable();} //show gui
     @Override
-    public void hide() {gui.setVisible(false);} //hide gui
-    public void close() {gui.dispose();} //close gui
+    public void hide() {gui.setVisible(false);Launcher.gui_launcher.enable();Launcher.gui_console.enable();} //hide gui
+    public void close() {gui.dispose();Launcher.gui_launcher.enable();Launcher.gui_console.enable();} //close gui
+    @Override
+    public void disable() {gui.setEnabled(false);} //disable gui
+    @Override
+    public void enable() {gui.setEnabled(true);} //enable gui
 
     /**
      * This method is called from within the constructor to initialize the form.

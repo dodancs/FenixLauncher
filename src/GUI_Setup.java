@@ -38,7 +38,7 @@ public class GUI_Setup extends JFrame {
     private JFrame gui = new JFrame(); //create JFrame gui
     
     //Settings
-    private final String GUI_icon_file = "icon.png"; //gui icon file
+    private final String GUI_icon_file = "/Resources/icon.png"; //gui icon file
     private final int GUI_width = 700; //gui width
     private final int GUI_height = 420; //gui height
     private final String GUI_title = "FenixLauncher - Nastavenie pri prvom spustení"; //gui title
@@ -55,10 +55,7 @@ public class GUI_Setup extends JFrame {
         
         //set look and feel
         try {UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());} 
-        catch (UnsupportedLookAndFeelException e) {Launcher.console.error(e.toString());e.printStackTrace();}
-        catch (ClassNotFoundException e) {Launcher.console.error(e.toString());e.printStackTrace();}
-        catch (InstantiationException e) {Launcher.console.error(e.toString());e.printStackTrace();}
-        catch (IllegalAccessException e) {Launcher.console.error(e.toString());e.printStackTrace();}
+        catch (Exception e) {Launcher.console.error(e.toString());e.printStackTrace();}
         
         guiComponents(); //init gui components
         
@@ -68,7 +65,7 @@ public class GUI_Setup extends JFrame {
         gui.setResizable(false); //disable resizing
         gui.setLocationRelativeTo(null); //center the gui
         gui.setTitle(GUI_title); //set gui title
-        gui.setIconImage(new ImageIcon(getClass().getResource(GUI_icon_file)).getImage()); //set gui icon
+        gui.setIconImage(Launcher.filehelper.getImage(GUI_icon_file)); //set gui icon
         
         //Generated GUI elements
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(gui.getContentPane());
@@ -240,6 +237,10 @@ public class GUI_Setup extends JFrame {
             Launcher.gui_launcher.init(); //init Launcher GUI
             Launcher.gui_launcher.show(); //show Launcher GUI
             Launcher.gui_settings.init(); //init Settings GUI
+            Launcher.gui_modpackEdit.init(); //init ModpackEdit GUI
+            Launcher.gui_downloader.init(); //init Downloader GUI
+            Launcher.loadModpacks(Launcher.modpacks.getOnlineModpacks());
+            Launcher.firstStart = false;
         }});
 
         jButton3.setText("Zrušiť"); //cancel button text
@@ -260,6 +261,10 @@ public class GUI_Setup extends JFrame {
     @Override
     public void hide() {gui.setVisible(false);} //hide gui
     public void close() {gui.dispose();} //close gui
+    @Override
+    public void disable() {gui.setEnabled(false);} //disable gui
+    @Override
+    public void enable() {gui.setEnabled(true);} //enable gui
 
     /**
      * This method is called from within the constructor to initialize the form.

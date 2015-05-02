@@ -27,7 +27,7 @@ public class GUI_Console extends JFrame {
     private JFrame gui = new JFrame(); //create JFrame gui
     
     //Settings
-    private final String GUI_icon_file = "icon.png"; //gui icon file
+    private final String GUI_icon_file = "/Resources/icon.png"; //gui icon file
     private final int GUI_width = 700; //gui width
     private final int GUI_height = 420; //gui height
     private final String GUI_title = "FenixLauncher - Console"; //gui title
@@ -44,10 +44,7 @@ public class GUI_Console extends JFrame {
         
         //set look and feel
         try {UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());} 
-        catch (UnsupportedLookAndFeelException e) {Launcher.console.error(e.toString());e.printStackTrace();}
-        catch (ClassNotFoundException e) {Launcher.console.error(e.toString());e.printStackTrace();}
-        catch (InstantiationException e) {Launcher.console.error(e.toString());e.printStackTrace();}
-        catch (IllegalAccessException e) {Launcher.console.error(e.toString());e.printStackTrace();}
+        catch (Exception e) {Launcher.console.error(e.toString());e.printStackTrace();}
         
         guiComponents(); //init gui components
         
@@ -57,7 +54,7 @@ public class GUI_Console extends JFrame {
         gui.setResizable(false); //disable resizing
         gui.setLocation(0,0); //move gui to top left corner
         gui.setTitle(GUI_title); //set gui title
-        gui.setIconImage(new ImageIcon(getClass().getResource(GUI_icon_file)).getImage()); //set gui icon
+        gui.setIconImage(Launcher.filehelper.getImage(GUI_icon_file)); //set gui icon
         
         //Generated GUI elements
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(gui.getContentPane());
@@ -99,6 +96,10 @@ public class GUI_Console extends JFrame {
     @Override
     public void hide() {gui.setVisible(false);} //hide gui
     public void close() {gui.dispose();} //close gui
+    @Override
+    public void disable() {gui.setEnabled(false);} //disable gui
+    @Override
+    public void enable() {gui.setEnabled(true);} //enable gui
 
     /**
      * This method is called from within the constructor to initialize the form.
