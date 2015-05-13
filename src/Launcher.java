@@ -69,7 +69,7 @@ public class Launcher {
     
     public static void main(String args[]) {
         
-        if (OS.contains("windows")) {slash = "\\";} //define the slash
+        if (OS.contains("windows")) {slash = "\\";} else {slash = "/";} //define the slash
         launcherFile = startDir + slash +  "launcher.json"; //define launcher file path based on startDir and slash
         
         modpacksList.add("Načítavam...");
